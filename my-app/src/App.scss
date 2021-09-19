@@ -1,0 +1,122 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-image: url('./white-background.jpg');
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center; 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Product-designer {
+  background-color: #fc5c03;
+  color: white;
+  min-width: 200px !important;
+  border-radius: 0.1rem;
+  font-size: large;
+  font-weight: 600;
+  border-color: #fc5c03;
+}
+
+.Inline-flex {
+    display: flex;
+    min-width: 100%;
+    height: 100vh;
+}
+
+.Left-Content {
+  width: 33%;
+  height: 100%;
+  background-color:rgba(255, 255, 255, 0.9);
+  padding: 5%;
+}
+
+.Right-Content {
+  width: 67%;
+  height: 100%;
+}
+
+.Sub-heading {
+  color : #42444a;
+  font-weight: 800;
+  font-size: 30px;
+  font-family: Calibri, sans-serif;
+  margin-top: 5%;
+}
+
+.hr {
+  border: none;
+    height: 0.5px;
+    /* Set the hr color */
+    color: rgb(56, 56, 56); /* old IE */
+    background-color: rgb(56, 56, 56); /* Modern Browsers */
+}
+
+.accordion-item {
+  border: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background: none;
+  color: black;
+  border: none;
+}
+
+.accordion-body {
+  max-height: 200px;
+  overflow: auto;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 6px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #BDBDBD;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #BDBDBD;
+border-radius: 6px; 
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url('./minus.svg')
+}
+
+.accordion-button::after {
+  background-image: url('./plus.svg');
+  color: gray;
+}
+
+.accordion-button {
+  color: gray;
+}
+
+.accordion-body {
+  color: black;
+}
+
+.accordion-item {
+  font-weight: 500;
+  font-family: Calibri, fangsong;
+  font-size: 18px;
+}
