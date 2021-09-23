@@ -42,6 +42,16 @@
 .Right-Content {
   width: 67%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Canvas-Content {
+  background: white;
+  width: 35%;
+  height: 60%;
+  border: 5px #EBEBEB solid;
 }
 
 .Sub-heading {
@@ -116,7 +126,28 @@ border-radius: 6px;
 }
 
 .accordion-item {
-  font-weight: 500;
-  font-family: Calibri, fangsong;
-  font-size: 18px;
+  font-weight: normal;
+    font-family: Roboto Slab;
+    font-size: 16px;
+}
+
+
+.canvas-Select-Image-Text {
+  font-weight: bolder;
+  font-family: Roboto;
+  font-size: 20px;
+  opacity: 40%;
+  color: #3A373A;
+  width: 70%;
+  margin-top: 5%;
+}
+
+.Canvas-Image{
+  width: 100%;
+  margin-top: 40%;
+  margin-left: -10%;
+}
+
+#getFile {
+  display: none;
 }

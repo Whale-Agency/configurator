@@ -2,9 +2,9 @@ import React from 'react';
 import AccordionItem from './AccordianItem';
 function LocalAccordian() {
   return (
-    <div class="accordion" id="mainAccordian">
+    <div className="accordion" id="mainAccordian">
       <AccordionItem
-      title={'My uploaded images'}
+      title={'Meine hochgeladenen Bilder'}
       body={'Empty for now'}
       headingId={'headingOne'}
       collapseId={'collapseOne'}
