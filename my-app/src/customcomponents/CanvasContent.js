@@ -4,10 +4,13 @@ export function CanvasContent({ setImagePath }) {
     const onButtonClick = () => {
         document.getElementById("getFile").click();
     };
-    const onChangeFile = (e) => {
-      // `current` points to the mounted file input element
-     setImagePath(document.getElementById('getFile').files[0].fullName)
-    };
+    const onImageChange = (event) => {
+      if (event.target.files && event.target.files[0]) {
+        setImagePath({
+          image: URL.createObjectURL(event.target.files[0])
+        });
+      }
+     }
     return (<><div className='Canvas-Content' align='center' onClick={() => onButtonClick()}>
     <div className='Canvas-Image'>
       <AddImage />
@@ -16,5 +19,5 @@ export function CanvasContent({ setImagePath }) {
       Klicken Sie hier, um das Foto hochzuladen, oder wählen sie eins aus der Galerie.
     </div>
   </div>
-  <input type="file" id="getFile" onChange={(e) => onChangeFile(e)} accept="image/*"  /></>)
+  <input type="file" id="getFile" onChange={onImageChange} accept="image/*"  /></>)
 }

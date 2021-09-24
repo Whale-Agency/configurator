@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.scss';
 import LocalAccordian from './customcomponents/Accordian/LocalAccordian';
 import { CanvasContent } from './customcomponents/CanvasContent';
+import { CustomCanvas } from './customcomponents/CustomCanvas';
 function App() {
   const [imagePath, setImagePath] = useState(null);
   const [image, setImage] = useState(null);
@@ -21,10 +22,9 @@ function App() {
           <LocalAccordian />
           </div>
           <div className='Right-Content'>
-            {/* {
-              imagePath === null ? <CanvasContent setImagePath={setImagePath} />: <img src={imagePath} />
-            } */}
-            <CanvasContent setImagePath={setImagePath} />
+            {
+              imagePath === null ? <CanvasContent setImagePath={setImagePath} />: <CustomCanvas imageSrc={imagePath.image}/>
+            }
           </div>
         </div>
       </header>
