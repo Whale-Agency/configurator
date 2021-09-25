@@ -4,9 +4,9 @@
 
 .App-header {
   background-image: url('./white-background.jpg');
-  background-size:     cover;                      /* <------ */
-  background-repeat:   no-repeat;
-  background-position: center center; 
+  background-size: cover; /* <------ */
+  background-repeat: no-repeat;
+  background-position: center center;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
@@ -27,15 +27,15 @@
 }
 
 .Inline-flex {
-    display: flex;
-    min-width: 100%;
-    height: 100vh;
+  display: flex;
+  min-width: 100%;
+  height: 100vh;
 }
 
 .Left-Content {
   width: 33%;
   height: 100%;
-  background-color:rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 5%;
 }
 
@@ -51,11 +51,11 @@
   background: white;
   width: 400px;
   height: 500px;
-  outline: 5px #EBEBEB solid;
+  outline: 5px #ebebeb solid;
 }
 
 .Sub-heading {
-  color : #42444a;
+  color: #42444a;
   font-weight: 800;
   font-size: 30px;
   font-family: Calibri, sans-serif;
@@ -64,10 +64,10 @@
 
 .hr {
   border: none;
-    height: 0.5px;
-    /* Set the hr color */
-    color: rgb(56, 56, 56); /* old IE */
-    background-color: rgb(56, 56, 56); /* Modern Browsers */
+  height: 0.5px;
+  /* Set the hr color */
+  color: rgb(56, 56, 56); /* old IE */
+  background-color: rgb(56, 56, 56); /* Modern Browsers */
 }
 
 .accordion-item {
@@ -80,36 +80,30 @@
   border: none;
 }
 
-.accordion-body {
-  max-height: 200px;
-  overflow: auto;
-}
-
-
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px grey;
   border-radius: 6px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #BDBDBD;
+  background: #bdbdbd;
   border-radius: 6px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #BDBDBD;
-border-radius: 6px; 
+  background: #bdbdbd;
+  border-radius: 6px;
 }
 
 .accordion-button:not(.collapsed)::after {
-  background-image: url('./minus.svg')
+  background-image: url('./minus.svg');
 }
 
 .accordion-button::after {
@@ -122,27 +116,53 @@ border-radius: 6px;
 }
 
 .accordion-body {
+  display: flex;
+  flex-wrap: wrap;
   color: black;
+  padding: 5px;
+  padding-left: 10%;
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
 }
 
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
 .accordion-item {
   font-weight: normal;
-    font-family: Roboto Slab;
-    font-size: 16px;
+  font-family: Roboto Slab;
+  font-size: 16px;
 }
-
 
 .canvas-Select-Image-Text {
   font-weight: bolder;
   font-family: Roboto;
   font-size: 20px;
   opacity: 40%;
-  color: #3A373A;
+  color: #3a373a;
   width: 70%;
   margin-top: 5%;
 }
 
-.Canvas-Image{
+.Canvas-Image {
   width: 100%;
   margin-top: 40%;
   margin-left: -10%;
@@ -150,4 +170,53 @@ border-radius: 6px;
 
 #getFile {
   display: none;
+}
+
+.AccordianItem {
+  @extend .AccordianItemUnselected;
+  outline: 2px dashed orange;
+  border-radius: 5px;
+}
+
+.AccordianItemUnselected {
+  height: 134px;
+  width: 134px;
+  margin: 5px;
+}
+.AccordianItemSVG {
+  margin-top: 25%;
+}
+
+.AccordianSelectedImages {
+  display: block;
+  max-width: 134px;
+  max-height: 134px;
+  width: auto;
+  height: auto;
+}
+
+.BottomProductSelection {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 18px;
+  font-family: roboto;
+  background: #5eab3d;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+}
+
+.BottomProductSelectionIcon {
+  margin: auto;
+  margin-right: 10px;
+}
+
+.EntdeckemehrBilder {
+  font-size: 18px;
+  font-family: roboto;
+  background: #f47e17;
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
 }
