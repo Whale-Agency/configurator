@@ -267,7 +267,7 @@ const StyledApp = styled.div`
     display: none;
   }
 
-  .AccordianItem {
+  .AccordionItem {
     height: 134px;
     width: 134px;
     margin: 5px;
@@ -278,16 +278,16 @@ const StyledApp = styled.div`
     }
   }
 
-  .AccordianItemUnselected {
+  .AccordionItemUnselected {
     height: 134px;
     width: 134px;
     margin: 5px;
   }
-  .AccordianItemSVG {
+  .AccordionItemSVG {
     margin-top: 25%;
   }
 
-  .AccordianSelectedImages {
+  .AccordionSelectedImages {
     display: block;
     max-width: 134px;
     max-height: 134px;

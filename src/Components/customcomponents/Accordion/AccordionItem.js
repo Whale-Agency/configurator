@@ -4,7 +4,7 @@ export default function AccordionItem({
   body,
   headingId,
   collapseId,
-  parentAccordian,
+  parentAccordion,
   isExpanded = false,
 }) {
   return (
@@ -25,7 +25,7 @@ export default function AccordionItem({
         id={collapseId}
         className='accordion-collapse collapse'
         aria-labelledby={{ headingId }}
-        data-bs-parent={'#' + parentAccordian}
+        data-bs-parent={'#' + parentAccordion}
       >
         {body}
       </div>
