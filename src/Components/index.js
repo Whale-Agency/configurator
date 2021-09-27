@@ -1,155 +1,335 @@
-import React from "react";
-import { useConnect, connect, styled, css } from 'frontity'
-import { Stage, Layer, Rect, Transformer } from "react-konva";
+import React, { useEffect, useState } from 'react';
+import { styled, connect } from 'frontity'
+import { CanvasContent } from './customcomponents/CanvasContent';
+import { CustomCanvas } from './customcomponents/CustomCanvas';
+import LeftBuildPage from './customcomponents/LeftBuildPage';
+import LeftCongratsPage from './customcomponents/LeftCongratsPage';
+import productSpeichern from "./Icons/ProductSpeichern.svg";
+import backgroundImage from './white-background.jpg'
 
-const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
-  const shapeRef = React.useRef();
-  const trRef = React.useRef();
 
-  React.useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+
+const App = ({ actions, libraries }) => {
+
+  const [imagePath, setImagePath] = useState(null);
+  const [curImage, setCurrentImage] = useState(null);
+  const [productSpeichernClick, setProductSpeichernClick] = useState(false);
+  const [images, setImages] = useState([]);
+  const { toggleCustomizer } =  actions.customizer;
+
+  const { XmarksTheSpot } = libraries.theme.components.icons
+  const { ScrollLock } = libraries.theme.components
+
+  console.log("imagePath", imagePath);
+  console.log("curImage", curImage);
+
+
+  useEffect(() => {
+    if (images.length > 0) setImagePath(images[images.length - 1]);
+  }, [images]);
+
+  function onProductPichernClick() {
+    if (curImage) {
+      setProductSpeichernClick(true);
     }
-  }, [isSelected]);
-
+  }
   return (
-    <React.Fragment>
-      <Rect
-        onClick={onSelect}
-        onTap={onSelect}
-        ref={shapeRef}
-        {...shapeProps}
-        draggable
-        onDragEnd={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-          });
-        }}
-        onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
-          });
-        }}
-      />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
-      )}
-    </React.Fragment>
-  );
-};
-
-const initialRectangles = [
-  {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100,
-    fill: "red",
-    id: "rect1",
-  },
-  {
-    x: 150,
-    y: 150,
-    width: 100,
-    height: 100,
-    fill: "green",
-    id: "rect2",
-  },
-];
-
-const App = () => {
-  const [rectangles, setRectangles] = React.useState(initialRectangles);
-  const [selectedId, selectShape] = React.useState(null);
-  const { state, libraries, actions } = useConnect();
-  const { CloseIcon } = libraries.theme.components.icons;
-  const { toggleCustomizer } = actions.customizer
-
-
-  const checkDeselect = (e) => {
-    // deselect when clicked on empty area
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      selectShape(null);
-    }
-  };
-  return (
-    <Customizer>
-      <Stage
-        width={state.customizer.size.width}
-        height={state.customizer.size.height}
-        onMouseDown={checkDeselect}
-        onTouchStart={checkDeselect}
-      >
-        <Layer>
-          {rectangles.map((rect, i) => {
-            return (
-              <Rectangle
-                key={i}
-                shapeProps={rect}
-                isSelected={rect.id === selectedId}
-                onSelect={() => {
-                  selectShape(rect.id);
-                }}
-                onChange={(newAttrs) => {
-                  const rects = rectangles.slice();
-                  rects[i] = newAttrs;
-                  setRectangles(rects);
-                }}
+    <StyledApp
+      className="App"
+      backgroundImage={backgroundImage}
+      curImage={curImage}
+    >
+      <ScrollLock/>
+      <header className="App-header">
+        <div className="Inline-flex">
+          <div
+            className="Left-Content"
+            align="left"
+            style={{ padding: productSpeichernClick ? "2%" : "5%" }}
+          >
+            {!productSpeichernClick ? (
+              <LeftBuildPage
+                images={images}
+                setImagePath={setImagePath}
+                setImages={setImages}
               />
-            );
-          })}
-        </Layer>
-      </Stage>
-      <CloseButton onClick={toggleCustomizer}>
-        <CloseIcon />
-      </CloseButton>
-    </Customizer>
+            ) : (
+              <LeftCongratsPage
+                setProductSpeichernClick={setProductSpeichernClick}
+              />
+            )}
+          </div>
+          <div className="Right-Content">
+            {imagePath === null ? (
+              <CanvasContent setImagePath={setImagePath} />
+            ) : (
+              <CustomCanvas
+                setCurrentImage={setCurrentImage}
+                imageSrc={imagePath.image}
+              />
+            )}
+            <div
+              className="BottomProductSelection"
+              onClick={() => onProductPichernClick()}
+            >
+              <img
+                src={productSpeichern}
+                className="BottomProductSelectionIcon"
+              />
+              <>Product Speichern</>
+            </div>
+          </div>
+        </div>
+      </header>
+      <CloseCustomizer onClick={toggleCustomizer}>
+        Editor schließen <XmarksTheSpot />
+      </CloseCustomizer>
+    </StyledApp>
   );
-};
+}
 
-export default connect(App, { injectProps: false });
+export default connect(App);
 
-const Customizer = styled.div`
-  position: relative;
-  border: 1px solid #fafafa;
-  border-radius: 4px;
-`
+const StyledApp = styled.div`
+  position: fixed;
+  top: 96px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  .App-header {
+    background-image: url(${backgroundImage});
+    background-size: cover; /* <------ */
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
 
-  svg path {
-    fill: #333;
+  .Product-designer {
+    background-color: #fc5c03;
+    color: white;
+    min-width: 200px !important;
+    border-radius: 0.1rem;
+    font-size: large;
+    font-weight: 600;
+    border-color: #fc5c03;
+  }
+
+  .Inline-flex {
+    display: flex;
+    min-width: 100%;
+    height: 100vh;
+  }
+
+  .Left-Content {
+    width: 33%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 5%;
+  }
+
+  .Right-Content {
+    width: 67%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Canvas-Content {
+    background: white;
+    width: 400px;
+    height: 500px;
+    outline: 5px #ebebeb solid;
+  }
+
+  .Sub-heading {
+    color: #42444a;
+    font-weight: 800;
+    font-size: 30px;
+    font-family: Calibri, sans-serif;
+    margin-top: 5%;
+  }
+
+  .hr {
+    border: none;
+    height: 0.5px;
+    /* Set the hr color */
+    color: rgb(56, 56, 56); /* old IE */
+    background-color: rgb(56, 56, 56); /* Modern Browsers */
+  }
+
+  .accordion-item {
+    border: none;
+  }
+
+  .accordion-button:not(.collapsed) {
+    background: none;
+    color: black;
+    border: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 6px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+    border-radius: 6px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #bdbdbd;
+    border-radius: 6px;
+  }
+
+  .accordion-button:not(.collapsed)::after {
+    background-image: url("./minus.svg");
+  }
+
+  .accordion-button::after {
+    background-image: url("./plus.svg");
+    color: gray;
+  }
+
+  .accordion-button {
+    color: gray;
+  }
+
+  .accordion-body {
+    display: flex;
+    flex-wrap: wrap;
+    color: black;
+    padding: 5px;
+    /* padding-left: 10%; */
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  #snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+  }
+
+  #snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  .accordion-item {
+    font-weight: normal;
+    font-family: Roboto Slab;
+    font-size: 16px;
+  }
+
+  .canvas-Select-Image-Text {
+    font-weight: bolder;
+    font-family: Roboto;
+    font-size: 20px;
+    opacity: 40%;
+    color: #3a373a;
+    width: 70%;
+    margin-top: 5%;
+  }
+
+  .Canvas-Image {
+    width: 100%;
+    margin-top: 40%;
+    margin-left: -10%;
+  }
+
+  #getFile {
+    display: none;
+  }
+
+  .AccordianItem {
+    height: 134px;
+    width: 134px;
+    margin: 5px;
+    outline: 2px dashed orange;
+    border-radius: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .AccordianItemUnselected {
+    height: 134px;
+    width: 134px;
+    margin: 5px;
+  }
+  .AccordianItemSVG {
+    margin-top: 25%;
+  }
+
+  .AccordianSelectedImages {
+    display: block;
+    max-width: 134px;
+    max-height: 134px;
+    width: auto;
+    height: auto;
+  }
+
+  .BottomProductSelection {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-family: roboto;
+    background: #5eab3d;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+  }
+
+  .BottomProductSelectionIcon {
+    margin: auto;
+    margin-right: 10px;
+  }
+
+  .EntdeckemehrBilder {
+    font-size: 18px;
+    font-family: roboto;
+    background: #f47e17;
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+  }
+`;
+
+const CloseCustomizer = styled.button`
+  position: fixed;
+  z-index: 999;
+  top: 115px;
+  right: 20px;
+  svg {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: -2px;
   }
 `;
