@@ -1,7 +1,9 @@
 import Konva from 'konva';
 import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer } from 'react-konva';
-import { css } from 'frontity'
+import { css, useConnect, styled } from 'frontity'
+import productSpeichern from "../Icons/ProductSpeichern.svg";
+
 
 const stageCss = css`
   background: white;
@@ -15,6 +17,8 @@ const stageCss = css`
 let canvasWidth = 400;
 let canvasHeight = 500;
 export function CustomCanvas({ imageSrc, setCurrentImage }) {
+  const { state } = useConnect()
+
   const stageRef = useRef(null);
   const layerRef = useRef(null);
   const [stageX, setStageX] = useState(0);
@@ -43,6 +47,8 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         draggable: true,
       });
       setCurrentImage(img);
+      // state.customizer.customizedHeater = stageRef.current.toDataUrl();
+
       layerRef.current.add(img);
 
       const tr = new Konva.Transformer({
@@ -67,6 +73,7 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
           height: img.height() * img.scaleY(),
         });
         setCurrentImage(img);
+        // state.customizer.customizedHeater = stageRef.current.toDataUrl();
       });
     });
   }, [imageSrc]);
@@ -102,9 +109,16 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
     stage.scale({ x: newScale, y: newScale });
     stage.position(newPos);
     stage.batchDraw();
-    var dataURL = stage.toDataURL();
-    console.log(dataURL);
+    // var dataURL = stage.toDataURL();
+    // console.log(dataURL);
   }
+
+  function handleSave() {
+    state.customizer.uploadedImage = imageSrc;
+    state.customizer.customizedHeater = stageRef.current.toDataURL();
+    state.customizer.visible = false;
+  }
+
   return (
     <div id='stagecontainer' css={stageCss}>
       <Stage
@@ -122,6 +136,28 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
       >
         <Layer ref={layerRef}></Layer>
       </Stage>
+
+      <SaveButton onClick={handleSave}>            
+        <img src={productSpeichern}/>
+        <>Product Speichern</>
+      </SaveButton>
     </div>
   );
 }
+
+const SaveButton = styled.button`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 18px;
+  background: #5eab3d;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  color: white;
+
+  img {
+    margin: auto;
+    margin-right: 10px;
+  }
+`;

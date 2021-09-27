@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { styled, connect } from 'frontity'
+import { styled, connect, useConnect } from 'frontity'
 import { CanvasContent } from './customcomponents/CanvasContent';
 import { CustomCanvas } from './customcomponents/CustomCanvas';
 import LeftBuildPage from './customcomponents/LeftBuildPage';
 import LeftCongratsPage from './customcomponents/LeftCongratsPage';
-import productSpeichern from "./Icons/ProductSpeichern.svg";
 import backgroundImage from './white-background.jpg'
 
 
 
-const App = ({ actions, libraries }) => {
+const App = ({  }) => {
+  const { actions, libraries, state } = useConnect();
 
-  const [imagePath, setImagePath] = useState(null);
-  const [curImage, setCurrentImage] = useState(null);
+  // State
+  const { imagePath, curImage } = state.customizer
+  const [images, setImages] = useState([])
   const [imageAdded, setImageAdded] = useState(false);
 
-  const [images, setImages] = useState([]);
-  const { toggleCustomizer } =  actions.customizer;
+  // Actions
+  const { setImagePath, setCurrentImage, toggleCustomizer} = actions.customizer
 
-  const { XmarksTheSpot } = libraries.theme.components.icons
-  const { ScrollLock } = libraries.theme.components
-
+  // Components
+  const { XmarksTheSpot } = libraries.theme.components.icons;
+  const { ScrollLock } = libraries.theme.components;
 
   useEffect(() => {
     if (images.length > 0) {
@@ -33,11 +34,6 @@ const App = ({ actions, libraries }) => {
     };
   }, [images]);
 
-  function onProductPichernClick() {
-    if (curImage) {
-      setImageAdded(true);
-    }
-  }
   return (
     <StyledApp
       className="App"
@@ -70,16 +66,6 @@ const App = ({ actions, libraries }) => {
                 imageSrc={imagePath.image}
               />
             )}
-            <div
-              className="BottomProductSelection"
-              onClick={() => onProductPichernClick()}
-            >
-              <img
-                src={productSpeichern}
-                className="BottomProductSelectionIcon"
-              />
-              <>Product Speichern</>
-            </div>
           </div>
         </div>
       </header>
@@ -229,22 +215,7 @@ const StyledApp = styled.div`
     height: auto;
   }
 
-  .BottomProductSelection {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    font-size: 18px;
-    font-family: roboto;
-    background: #5eab3d;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-  }
 
-  .BottomProductSelectionIcon {
-    margin: auto;
-    margin-right: 10px;
-  }
 
   .EntdeckemehrBilder {
     font-size: 18px;
