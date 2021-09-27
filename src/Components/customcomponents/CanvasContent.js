@@ -1,5 +1,6 @@
 import React from 'react';
 import addImage from '../Icons/add_Image.svg';
+import { styled } from 'frontity'
 
 export function CanvasContent({ setImagePath }) {
   const onButtonClick = () => {
@@ -14,25 +15,50 @@ export function CanvasContent({ setImagePath }) {
   };
   return (
     <>
-      <div
-        className='Canvas-Content'
-        align='center'
-        onClick={() => onButtonClick()}
-      >
-        <div className='Canvas-Image'>
-          <img src={addImage}/>
-        </div>
-        <div className='canvas-Select-Image-Text'>
+      <StyledCanvasContent align="center" onClick={() => onButtonClick()}>
+        <CanvasImageWrapper>
+          <img src={addImage} />
+        </CanvasImageWrapper>
+        <HelperText className="canvas-Select-Image-Text">
           Klicken Sie hier, um das Foto hochzuladen, oder wählen sie eins aus
           der Galerie.
-        </div>
-      </div>
+        </HelperText>
+      </StyledCanvasContent>
       <input
-        type='file'
-        id='getFile'
+        type="file"
+        id="getFile"
         onChange={onImageChange}
-        accept='image/*'
+        accept="image/*"
       />
     </>
   );
 }
+
+const StyledCanvasContent = styled.div`
+  background: white;
+  width: 400px;
+  height: 500px;
+  outline: 5px #ebebeb solid;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const HelperText = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  opacity: 40%;
+  color: #3a373a;
+  width: 70%;
+  margin: 0 auto;
+`
+
+const CanvasImageWrapper = styled.div`
+  width: 100%;
+  img {
+    margin-left: -20px;
+    margin-bottom: 20px;
+  }
+`

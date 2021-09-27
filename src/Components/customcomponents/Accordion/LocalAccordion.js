@@ -5,7 +5,6 @@ import { showSnackBar } from '../SnackBar';
 
 const LocalAccordion = ({ images, setImages, setImagePath }) => {
   const fileInputRef = useRef(null);
-
   const onButtonClick = () => {
     fileInputRef.current.click();
   };
@@ -48,6 +47,7 @@ const LocalAccordion = ({ images, setImages, setImagePath }) => {
               className="AccordionItem"
               align="center"
               onClick={() => setImagePath(i)}
+              key={i}
             >
               <img
                 className="AccordionSelectedImages"

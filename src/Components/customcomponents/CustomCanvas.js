@@ -1,6 +1,16 @@
 import Konva from 'konva';
 import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer } from 'react-konva';
+import { css } from 'frontity'
+
+const stageCss = css`
+  background: white;
+  width: 400px;
+  height: 500px;
+  outline: 5px #ebebeb solid;
+  cursor: pointer;
+  text-align: center;
+`;
 
 let canvasWidth = 400;
 let canvasHeight = 500;
@@ -96,7 +106,7 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
     console.log(dataURL);
   }
   return (
-    <div id='stagecontainer' className='Canvas-Content'>
+    <div id='stagecontainer' css={stageCss}>
       <Stage
         ref={stageRef}
         id='stage'

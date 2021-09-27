@@ -1,6 +1,6 @@
 import yey from '../Icons/Yey.svg';
 import thumbsUp from "../Icons/ThumbsUp.svg";
-export default function LeftCongratsPage({ setProductSpeichernClick }) {
+export default function LeftCongratsPage({ }) {
   return (
     <div align='center'>
       <div>
@@ -17,9 +17,9 @@ export default function LeftCongratsPage({ setProductSpeichernClick }) {
       <br />
       <div
         className='EntdeckemehrBilder'
-        onClick={() => setProductSpeichernClick(false)}
+        onClick={() => console.log("clicked change image")}
       >
-        Entdecke mehr Bilder
+        Bild ändern
       </div>
     </div>
   );

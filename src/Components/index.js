@@ -13,24 +13,29 @@ const App = ({ actions, libraries }) => {
 
   const [imagePath, setImagePath] = useState(null);
   const [curImage, setCurrentImage] = useState(null);
-  const [productSpeichernClick, setProductSpeichernClick] = useState(false);
+  const [imageAdded, setImageAdded] = useState(false);
+
   const [images, setImages] = useState([]);
   const { toggleCustomizer } =  actions.customizer;
 
   const { XmarksTheSpot } = libraries.theme.components.icons
   const { ScrollLock } = libraries.theme.components
 
-  console.log("imagePath", imagePath);
-  console.log("curImage", curImage);
-
 
   useEffect(() => {
-    if (images.length > 0) setImagePath(images[images.length - 1]);
+    if (images.length > 0) {
+      // Update the image path
+      setImagePath(images[images.length - 1])
+      
+      // Mark the image as added so we show congrats
+      setImageAdded(true);
+
+    };
   }, [images]);
 
   function onProductPichernClick() {
     if (curImage) {
-      setProductSpeichernClick(true);
+      setImageAdded(true);
     }
   }
   return (
@@ -39,24 +44,21 @@ const App = ({ actions, libraries }) => {
       backgroundImage={backgroundImage}
       curImage={curImage}
     >
-      <ScrollLock/>
+      <ScrollLock />
       <header className="App-header">
         <div className="Inline-flex">
           <div
             className="Left-Content"
             align="left"
-            style={{ padding: productSpeichernClick ? "2%" : "5%" }}
           >
-            {!productSpeichernClick ? (
+            {!imageAdded ? (
               <LeftBuildPage
                 images={images}
                 setImagePath={setImagePath}
                 setImages={setImages}
               />
             ) : (
-              <LeftCongratsPage
-                setProductSpeichernClick={setProductSpeichernClick}
-              />
+              <LeftCongratsPage />
             )}
           </div>
           <div className="Right-Content">
@@ -111,16 +113,6 @@ const StyledApp = styled.div`
     color: white;
   }
 
-  .Product-designer {
-    background-color: #fc5c03;
-    color: white;
-    min-width: 200px !important;
-    border-radius: 0.1rem;
-    font-size: large;
-    font-weight: 600;
-    border-color: #fc5c03;
-  }
-
   .Inline-flex {
     display: flex;
     min-width: 100%;
@@ -130,7 +122,7 @@ const StyledApp = styled.div`
   .Left-Content {
     width: 33%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.3);
     padding: 5%;
   }
 
@@ -143,10 +135,7 @@ const StyledApp = styled.div`
   }
 
   .Canvas-Content {
-    background: white;
-    width: 400px;
-    height: 500px;
-    outline: 5px #ebebeb solid;
+
   }
 
   .Sub-heading {
@@ -247,22 +236,6 @@ const StyledApp = styled.div`
     font-size: 16px;
   }
 
-  .canvas-Select-Image-Text {
-    font-weight: bolder;
-    font-family: Roboto;
-    font-size: 20px;
-    opacity: 40%;
-    color: #3a373a;
-    width: 70%;
-    margin-top: 5%;
-  }
-
-  .Canvas-Image {
-    width: 100%;
-    margin-top: 40%;
-    margin-left: -10%;
-  }
-
   #getFile {
     display: none;
   }
@@ -273,6 +246,17 @@ const StyledApp = styled.div`
     margin: 5px;
     outline: 2px dashed orange;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 51px;
+      height: 43px;
+      margin-left: -10px;
+      margin-top: -10px;
+    }
+
     &:hover {
       cursor: pointer;
     }
@@ -282,9 +266,6 @@ const StyledApp = styled.div`
     height: 134px;
     width: 134px;
     margin: 5px;
-  }
-  .AccordionItemSVG {
-    margin-top: 25%;
   }
 
   .AccordionSelectedImages {
