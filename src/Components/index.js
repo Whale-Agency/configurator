@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { styled, connect, useConnect } from 'frontity'
-import { CanvasContent } from './customcomponents/CanvasContent';
-import { CustomCanvas } from './customcomponents/CustomCanvas';
+import { styled, connect, useConnect, loadable } from 'frontity'
+import CanvasContent from "./customcomponents/CanvasContent";
+import CustomCanvas from "./customcomponents/CustomCanvas";
 import LeftBuildPage from './customcomponents/LeftBuildPage';
 import LeftCongratsPage from './customcomponents/LeftCongratsPage';
 import backgroundImage from './white-background.jpg'
+const SnackBar = loadable(()=> import('./customcomponents/SnackBar'))
 
-
-
-const App = ({  }) => {
+const App = ({ }) => {
   const { actions, libraries, state } = useConnect();
 
   // State
-  const { imagePath, curImage } = state.customizer
-  const [images, setImages] = useState([])
-  const [imageAdded, setImageAdded] = useState(false);
+  const { imagePath, curImage, imageAdded } = state.customizer;
+  const [images, setImages] = useState([]);
 
   // Actions
-  const { setImagePath, setCurrentImage, toggleCustomizer} = actions.customizer
+  const { setImagePath, setCurrentImage, toggleCustomizer, setImageAdded } = actions.customizer
 
   // Components
   const { XmarksTheSpot } = libraries.theme.components.icons;
@@ -26,12 +24,10 @@ const App = ({  }) => {
   useEffect(() => {
     if (images.length > 0) {
       // Update the image path
-      setImagePath(images[images.length - 1])
-      
+      setImagePath(images[images.length - 1]);
       // Mark the image as added so we show congrats
       setImageAdded(true);
-
-    };
+    }
   }, [images]);
 
   return (
@@ -43,10 +39,7 @@ const App = ({  }) => {
       <ScrollLock />
       <header className="App-header">
         <div className="Inline-flex">
-          <div
-            className="Left-Content"
-            align="left"
-          >
+          <div className="Left-Content" align="left">
             {!imageAdded ? (
               <LeftBuildPage
                 images={images}
@@ -54,7 +47,7 @@ const App = ({  }) => {
                 setImages={setImages}
               />
             ) : (
-              <LeftCongratsPage />
+              <LeftCongratsPage setImages={setImages}/>
             )}
           </div>
           <div className="Right-Content">
@@ -72,6 +65,7 @@ const App = ({  }) => {
       <CloseCustomizer onClick={toggleCustomizer}>
         Editor schließen <XmarksTheSpot />
       </CloseCustomizer>
+      {state.customizer.error && <SnackBar error={state.customizer.error} />}
     </StyledApp>
   );
 }
@@ -153,27 +147,7 @@ const StyledApp = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
   }
-  #snackbar {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 17px;
-  }
 
-  #snackbar.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  }
 
   #getFile {
     display: none;

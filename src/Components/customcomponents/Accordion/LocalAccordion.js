@@ -1,9 +1,13 @@
 import React, { useRef } from 'react';
 import AccordionItem from './AccordionItem';
 import addImage from '../../Icons/add_Image_Bar.svg';
-import { showSnackBar } from '../SnackBar';
+import { useConnect, connect } from 'frontity'
 
 const LocalAccordion = ({ images, setImages, setImagePath }) => {
+  const { state } = useConnect();
+  // const { images } = state.customizer;
+  // const { setImagePath } = actions.customizer;
+
   const fileInputRef = useRef(null);
   const onButtonClick = () => {
     fileInputRef.current.click();
@@ -11,13 +15,15 @@ const LocalAccordion = ({ images, setImages, setImagePath }) => {
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
+      // clean the error state
+      state.customizer.error = false;
+
       const img = new Image();
       img.src = URL.createObjectURL(event.target.files[0]);
       img.onload = function () {
         if (this.width < 1400 || this.height < 1000) {
-          showSnackBar(
-            "The minimum width & height of the image should be 1400 x 1000."
-          );
+          state.customizer.error =
+            "Die Mindestbreite und -höhe des Bildes sollte 1400 x 1000 betragen.";
           fileInputRef.current.click();
           return;
         }
@@ -99,4 +105,4 @@ const LocalAccordion = ({ images, setImages, setImagePath }) => {
   );
 };
 
-export default LocalAccordion;
+export default connect(LocalAccordion);

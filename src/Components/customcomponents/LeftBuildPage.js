@@ -1,18 +1,22 @@
 import LocalAccordion from "./Accordion/LocalAccordion";
-import { styled } from 'frontity'
+import { styled, connect } from 'frontity'
 
-const LeftBuildPage = ({images, setImagePath, setImages}) => {
-  return (  
+const LeftBuildPage = ({ images, setImagePath, setImages }) => {
+  return (
     <>
       <ProductDesignerLabel>Produkt Designer</ProductDesignerLabel>
-      <h2 className='Sub-heading'>Wunschmotiv Series</h2>
-      <hr className='hr'/>
-      <LocalAccordion images={images} setImages={setImages} setImagePath={setImagePath}/> 
+      <h2 className="Sub-heading">Wunschmotiv Series</h2>
+      <hr className="hr" />
+      <LocalAccordion
+        images={images}
+        setImages={setImages}
+        setImagePath={setImagePath}
+      />
     </>
-  )
-}
+  );
+};
 
-export default LeftBuildPage
+export default connect(LeftBuildPage)
 
 const ProductDesignerLabel = styled.div`
   background-color: #fc5c03;

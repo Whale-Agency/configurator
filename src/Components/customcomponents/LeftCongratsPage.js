@@ -1,32 +1,38 @@
 import yey from '../Icons/Yey.svg';
 import thumbsUp from "../Icons/ThumbsUp.svg";
 
-import { styled } from 'frontity'
+import { styled, useConnect, connect } from 'frontity'
 
-export default function LeftCongratsPage({ }) {
+function LeftCongratsPage({ setImages }) {
+  const { actions } = useConnect();
+
+  const handleCleanUpClick = () => {
+    actions.customizer.cleanUp();
+    setImages([])
+  };
+
   return (
-    <div align='center'>
+    <div align="center">
       <div>
-        <img src={yey}/>
+        <img src={yey} />
       </div>
       <div>
         <img src={thumbsUp} />
       </div>
-      <h2 className='Sub-heading'>Gute Auswahl!</h2>
+      <h2 className="Sub-heading">Gute Auswahl!</h2>
       <HelperText>
         Jetzt nur noch Das Bild an die gewünschte Stelle Positionieren und
         fortfahren zum Warenkorb.
       </HelperText>
       <br />
-      <div
-        className='EntdeckemehrBilder'
-        onClick={() => console.log("clicked change image")}
-      >
+      <div className="EntdeckemehrBilder" onClick={handleCleanUpClick}>
         Bild ändern
       </div>
     </div>
   );
 }
+
+export default connect(LeftCongratsPage);
 
 const HelperText = styled.div`
   font-size: 20px;

@@ -6,10 +6,13 @@ export default {
   roots: {},
   state: {
     customizer: {
+      isCustomizableProduct: false,
       visible: false,
       imagePath: null,
       curImage: null,
       customizedHeater: null,
+      imageAdded: false,
+      error: false,
     },
   },
   libraries: {
@@ -34,6 +37,16 @@ export default {
       setCurrentImage: ({ state }) => (image) => {
         state.customizer.curImage = image;
       },
+      setImageAdded: ({ state }) => (value) => {
+        state.customizer.imageAdded = value;
+      },
+      cleanUp: ({state}) => {
+        state.customizer.images = []
+        state.customizer.imagePath = null
+        state.customizer.curImage = null
+        state.customizer.customizedHeater = null
+        state.customizer.imageAdded = false
+      }
     },
   },
 };

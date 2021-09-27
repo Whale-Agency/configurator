@@ -1,10 +1,10 @@
 import React from 'react';
 import addImage from '../Icons/add_Image.svg';
-import { styled } from 'frontity'
+import { connect, styled, useConnect } from 'frontity'
 
-export function CanvasContent({ setImagePath }) {
+const CanvasContent = ({ setImagePath }) => {
   const onButtonClick = () => {
-    document.getElementById('getFile').click();
+    document.getElementById("getFile").click();
   };
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -32,7 +32,10 @@ export function CanvasContent({ setImagePath }) {
       />
     </>
   );
-}
+};
+
+export default connect(CanvasContent);
+
 
 const StyledCanvasContent = styled.div`
   background: white;

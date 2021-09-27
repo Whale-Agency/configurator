@@ -1,10 +1,24 @@
-export function showSnackBar(text) {
-  const x = document.getElementById('snackbar');
-  if (x !== null && x !== undefined) {
-    x.className = 'show';
-    x.innerHTML = text;
-    setTimeout(() => {
-      x.className = x.className.replace('show', '');
-    }, 3000);
-  }
+import { styled } from 'frontity'
+
+const SnackBar = ({error}) => {
+  return <StyledSnackBar>{error}</StyledSnackBar>;
 }
+
+export default SnackBar
+
+const StyledSnackBar = styled.div`
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+`;

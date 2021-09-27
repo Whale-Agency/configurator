@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer } from 'react-konva';
-import { css, useConnect, styled } from 'frontity'
+import { css, useConnect, styled, connect } from 'frontity'
 import productSpeichern from "../Icons/ProductSpeichern.svg";
 
 
@@ -16,8 +16,8 @@ const stageCss = css`
 
 let canvasWidth = 400;
 let canvasHeight = 500;
-export function CustomCanvas({ imageSrc, setCurrentImage }) {
-  const { state } = useConnect()
+const CustomCanvas = ({ imageSrc, setCurrentImage }) => {
+  const { state } = useConnect();
 
   const stageRef = useRef(null);
   const layerRef = useRef(null);
@@ -43,7 +43,7 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         height: img.attrs.image.height / ratio,
         x: 0,
         y: 80,
-        name: 'image',
+        name: "image",
         draggable: true,
       });
       setCurrentImage(img);
@@ -64,7 +64,7 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
 
       layerRef.current.add(tr);
 
-      img.on('transform', () => {
+      img.on("transform", () => {
         // reset scale on transform
         img.setAttrs({
           scaleX: 1,
@@ -109,21 +109,25 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
     stage.scale({ x: newScale, y: newScale });
     stage.position(newPos);
     stage.batchDraw();
-    // var dataURL = stage.toDataURL();
-    // console.log(dataURL);
   }
 
   function handleSave() {
+    // Update the state with the original image file + the customized file
     state.customizer.uploadedImage = imageSrc;
     state.customizer.customizedHeater = stageRef.current.toDataURL();
+
+    // Set the currrent slide to 0 so we show that image
+    state.shop.productGalleryImages.currentSlide = 0;
+
+    // Close the customizer
     state.customizer.visible = false;
   }
 
   return (
-    <div id='stagecontainer' css={stageCss}>
+    <div id="stagecontainer" css={stageCss}>
       <Stage
         ref={stageRef}
-        id='stage'
+        id="stage"
         width={canvasWidth || window.innerWidth}
         height={canvasHeight || window.innerHeight}
         scaleX={stageScale}
@@ -137,13 +141,15 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         <Layer ref={layerRef}></Layer>
       </Stage>
 
-      <SaveButton onClick={handleSave}>            
-        <img src={productSpeichern}/>
+      <SaveButton onClick={handleSave}>
+        <img src={productSpeichern} />
         <>Product Speichern</>
       </SaveButton>
     </div>
   );
-}
+};
+
+export default connect(CustomCanvas);
 
 const SaveButton = styled.button`
   position: absolute;
