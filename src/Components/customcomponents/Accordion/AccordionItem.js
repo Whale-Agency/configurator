@@ -1,15 +1,18 @@
-import React from 'react';
-export default function AccordionItem({
+import { connect, useConnect, styled } from 'frontity'
+
+const AccordionItem = ({
   title,
   body,
   headingId,
   collapseId,
   parentAccordion,
   isExpanded = false,
-}) {
+}) => {
+
+  const { libraries} = useConnect()
   return (
-    <div className='accordion-item'>
-      <h2 className='accordion-header' id={headingId}>
+    <StyledAccorionItem font={libraries.theme.fonts.slab}>
+      <h2 id={headingId}>
         <button
           className='accordion-button collapsed'
           type='button'
@@ -29,6 +32,19 @@ export default function AccordionItem({
       >
         {body}
       </div>
-    </div>
+    </StyledAccorionItem>
   );
 }
+
+export default connect(AccordionItem);
+
+const StyledAccorionItem = styled.div`
+  font-weight: normal;
+  h2 {
+    font-family: ${props => props.font};
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+  border: none;
+  margin-bottom
+`;

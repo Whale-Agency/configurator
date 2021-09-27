@@ -1,5 +1,8 @@
 import yey from '../Icons/Yey.svg';
 import thumbsUp from "../Icons/ThumbsUp.svg";
+
+import { styled } from 'frontity'
+
 export default function LeftCongratsPage({ }) {
   return (
     <div align='center'>
@@ -10,10 +13,10 @@ export default function LeftCongratsPage({ }) {
         <img src={thumbsUp} />
       </div>
       <h2 className='Sub-heading'>Gute Auswahl!</h2>
-      <div className='canvas-Select-Image-Text'>
+      <HelperText>
         Jetzt nur noch Das Bild an die gewünschte Stelle Positionieren und
         fortfahren zum Warenkorb.
-      </div>
+      </HelperText>
       <br />
       <div
         className='EntdeckemehrBilder'
@@ -24,3 +27,12 @@ export default function LeftCongratsPage({ }) {
     </div>
   );
 }
+
+const HelperText = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  opacity: 40%;
+  color: #3a373a;
+  width: 70%;
+  margin: 0 auto;
+`;

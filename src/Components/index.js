@@ -122,8 +122,15 @@ const StyledApp = styled.div`
   .Left-Content {
     width: 33%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.3);
     padding: 5%;
+
+    background: transparent;
+    border: 1px solid rgba(112, 112, 112, 0.2);
+    /* Note: currently only Safari supports backdrop-filter */
+    backdrop-filter: blur(19.55780029296875px);
+    --webkit-backdrop-filter: blur(19.55780029296875px);
+    background-color: rgba(255, 255, 255, 0);
+    /* (plus shape's fill blended on top as a separate layer with 74.61% opacity) */
   }
 
   .Right-Content {
@@ -132,10 +139,6 @@ const StyledApp = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .Canvas-Content {
-
   }
 
   .Sub-heading {
@@ -152,51 +155,6 @@ const StyledApp = styled.div`
     /* Set the hr color */
     color: rgb(56, 56, 56); /* old IE */
     background-color: rgb(56, 56, 56); /* Modern Browsers */
-  }
-
-  .accordion-item {
-    border: none;
-  }
-
-  .accordion-button:not(.collapsed) {
-    background: none;
-    color: black;
-    border: none;
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 6px;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #bdbdbd;
-    border-radius: 6px;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #bdbdbd;
-    border-radius: 6px;
-  }
-
-  .accordion-button:not(.collapsed)::after {
-    background-image: url("./minus.svg");
-  }
-
-  .accordion-button::after {
-    background-image: url("./plus.svg");
-    color: gray;
-  }
-
-  .accordion-button {
-    color: gray;
   }
 
   .accordion-body {
@@ -229,11 +187,6 @@ const StyledApp = styled.div`
     visibility: visible;
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  }
-  .accordion-item {
-    font-weight: normal;
-    font-family: Roboto Slab;
-    font-size: 16px;
   }
 
   #getFile {
