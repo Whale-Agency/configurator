@@ -43,6 +43,7 @@ function App() {
               <CustomCanvas
                 setCurrentImage={setCurrentImage}
                 imageSrc={imagePath.image}
+                setImagePath={setImagePath}
               />
             )}
             <div

@@ -4,9 +4,8 @@ import { Stage, Layer } from 'react-konva';
 
 let canvasWidth = 400;
 let canvasHeight = 500;
-export function CustomCanvas({ imageSrc, setCurrentImage }) {
+export function CustomCanvas({ imageSrc, setCurrentImage, setImagePath }) {
   const stageRef = useRef(null);
-  const layerRef = useRef(null);
   const [stageX, setStageX] = useState(0);
   const [maxScale, setMaxScale] = useState(20);
   const [stageY, setStageY] = useState(0);
@@ -14,7 +13,8 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
   const scaleBy = 0.9;
 
   useEffect(() => {
-    layerRef.current.clear();
+    
+    var layer = new Konva.Layer();
     setCurrentImage(null);
     Konva.Image.fromURL(imageSrc, (img) => {
       // setWidthHeight(img.attrs.image.width, img.attrs.image.height);
@@ -33,11 +33,12 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         draggable: true,
       });
       setCurrentImage(img);
-      layerRef.current.add(img);
+      layer.add(img);
 
       const tr = new Konva.Transformer({
         nodes: [img],
         keepRatio: false,
+        rotateAnchorOffset: 60,
         boundBoxFunc: (oldBox, newBox) => {
           if (newBox.width < 10 || newBox.height < 10) {
             return oldBox;
@@ -46,7 +47,7 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         },
       });
 
-      layerRef.current.add(tr);
+      layer.add(tr);
 
       img.on('transform', () => {
         // reset scale on transform
@@ -58,6 +59,9 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         });
         setCurrentImage(img);
       });
+      stageRef.current.clear();
+      stageRef.current.clearCache();
+      stageRef.current.add(layer);
     });
   }, [imageSrc]);
 
@@ -95,6 +99,20 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
     var dataURL = stage.toDataURL();
     console.log(dataURL);
   }
+  useEffect(() => {
+    window.addEventListener('keyup', handleUserKeyPress);
+
+    return () => {
+      window.removeEventListener('keyup', handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
+  function handleUserKeyPress(event) {
+    const { key } = event;
+    if(key === 'Delete') {
+      setCurrentImage(null);
+      setImagePath(null);
+    }
+  }
   return (
     <div id='stagecontainer' className='Canvas-Content'>
       <Stage
@@ -110,7 +128,6 @@ export function CustomCanvas({ imageSrc, setCurrentImage }) {
         //  onClick={onClick}
         // onDblClick={onDblClick}
       >
-        <Layer ref={layerRef}></Layer>
       </Stage>
     </div>
   );
