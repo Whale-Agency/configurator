@@ -16,9 +16,15 @@ const onImageChange = (event) => {
             document.getElementById("getFile").click();
             return;
           }
+          var reader = new FileReader();
+          reader.readAsDataURL(event.target.files[0]);
+          reader.onloadend = function () {
+            var base64String = reader.result;
+            
           setImages([ ...images, {
-            image: URL.createObjectURL(event.target.files[0])
+            image: base64String
           }]);
+          };
         };
       
   }

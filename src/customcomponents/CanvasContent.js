@@ -6,9 +6,15 @@ export function CanvasContent({ setImagePath }) {
   };
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setImagePath({
-        image: URL.createObjectURL(event.target.files[0]),
-      });
+      const blobImage = URL.createObjectURL(event.target.files[0]);
+      var reader = new FileReader();
+      reader.readAsDataURL(blobImage);
+      reader.onloadend = function () {
+        var base64String = reader.result;
+        setImagePath({
+          image: base64String,
+        });
+      };
     }
   };
   return (
