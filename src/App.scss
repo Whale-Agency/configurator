@@ -54,6 +54,12 @@
   outline: 5px #ebebeb solid;
 }
 
+.Canvas-Content-Compare {
+  width: 760px;
+  height: 760px;
+  position: absolute;
+}
+
 .Sub-heading {
   color: #42444a;
   font-weight: 800;
@@ -154,7 +160,7 @@
 
 .canvas-Select-Image-Text {
   font-weight: bolder;
-  font-family: Roboto;
+  font-family: Helvetica Neue;
   font-size: 20px;
   opacity: 40%;
   color: #3a373a;
@@ -162,6 +168,37 @@
   margin-top: 5%;
 }
 
+.undo-Text {
+  font-weight: bolder;
+  font-family: Roboto;
+  font-size: 15px;
+  opacity: 40%;
+  color: #7B7B7B;
+  right: 50px;
+  top: 42%
+}
+
+.redo-Text {
+  font-weight: bolder;
+  font-family: Roboto;
+  font-size: 15px;
+  opacity: 40%;
+  color: #7B7B7B;
+  right: 50px;
+  top: 55%
+}
+.undo {
+  position: absolute;
+  right: 65px;
+  top: 35%;
+  cursor: pointer;
+}
+.redo {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  cursor: pointer;
+}
 .Canvas-Image {
   width: 100%;
   margin-top: 40%;
